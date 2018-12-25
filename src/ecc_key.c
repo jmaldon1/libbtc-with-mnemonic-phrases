@@ -65,9 +65,10 @@ void btc_privkey_cleanse(btc_key* privkey)
 
 
 void btc_mnemonic_gen(btc_key* privkey, char* mnemonic){
-    const char* mnemonic_phrase = mnemonic_from_data(privkey->privkey, BTC_ECKEY_PKEY_LENGTH);
+    char* mnemonic_phrase = mnemonic_from_data(privkey->privkey, BTC_ECKEY_PKEY_LENGTH);
     strcpy(privkey->mnemonic, mnemonic_phrase);
     memcpy(mnemonic, mnemonic_phrase, strlen(mnemonic_phrase)+1);
+    memset(mnemonic_phrase, 0, strlen(mnemonic_phrase));
 }
 
 

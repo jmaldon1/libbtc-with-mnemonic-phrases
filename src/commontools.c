@@ -88,9 +88,6 @@ btc_bool hd_gen_master(const btc_chainparams* chain, char* masterkeyhex, size_t 
     btc_hdnode node;
     uint8_t seed[32];
     assert(btc_random_bytes(seed, 32, true));
-    char* mnemonic_phrase = mnemonic_from_data(seed, BTC_ECKEY_PKEY_LENGTH);
-    strcpy(node.mnemonic, mnemonic_phrase);
-    memset(mnemonic_phrase, 0, strlen(mnemonic_phrase));
     btc_hdnode_from_seed(seed, 32, &node);
     memset(seed, 0, 32);
     btc_hdnode_serialize_private(&node, chain, masterkeyhex, strsize);
@@ -128,6 +125,7 @@ btc_bool hd_print_node(const btc_chainparams* chain, const char* nodeser)
     printf("child index: %d\n", node.child_num);
     printf("p2pkh address: %s\n", str);
     printf("p2wpkh address: %s\n", str);
+    printf("mnemonic phrase: %s\n", node.mnemonic);
 
     if (!btc_hdnode_get_pub_hex(&node, str, &strsize))
         return false;
